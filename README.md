@@ -80,11 +80,11 @@ Kanye requires poltergeist and jQuery.
 
 Require Kanye in your spec_helper.rb:
 
-    require_relative '../../lib/kanye/kanye'
+    require 'dmc_kanye'
 
 Configure Kanye with JavaScript that will disable transitions:
 
-    Kanye::Config.script_to_disable_transitions = "(typeof jQuery === 'undefined') ? false : jQuery('.fade').removeClass('fade')"
+    DmcKanye::Config.script_to_disable_transitions = "(typeof jQuery === 'undefined') ? false : jQuery('.fade').removeClass('fade')"
 
 Kanye can't predict which kind of transitions you will use or how to disable them, so you have to supply the JavaScript that will disable transitions.  This transition-disabling JavaScript is executed on the browser every time the browser URL changes.
 
@@ -94,7 +94,7 @@ Set Capybara's wait time lower to speed up your specs:
 
 Configure Kanye's default wait time:
 
-    Kanye::Config.default_wait_time = 0.5
+    DmcKanye::Config.default_wait_time = 0.5
 
 The Kanye default wait time will be used when poltergeist is active (meaning :js => true for that spec).  Otherwise, you will be using the Rack::Test driver which will use the Capybara default wait time.  Because Kanye keeps a more controlled watch on what the browser is doing, there is less guess-work and so Kanye's default wait time can be lower than Capybara's.
 
