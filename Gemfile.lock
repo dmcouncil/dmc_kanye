@@ -1,0 +1,19 @@
+PATH
+  remote: .
+  specs:
+    dmc_kanye (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    push_safety (0.0.2)
+    rake (10.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.9)
+  dmc_kanye!
+  push_safety
+  rake (~> 10.0)
