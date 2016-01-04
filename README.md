@@ -78,6 +78,10 @@ That last point is important to note.  Transitions (CSS transitions, jQuery tran
 
 Kanye requires poltergeist and jQuery.
 
+Add Kanye to your gemfile (if you have a test group, you can put it there):
+
+    gem 'dmc_kanye'
+
 Require Kanye in your spec_helper.rb:
 
     require 'dmc_kanye'
@@ -109,3 +113,8 @@ However, there are a couple of situations that may confuse Kanye:
 
 In those (hopefully rare) situations, it is recommended that you write your own code into that test to deal with the timing issue, even if it ends up being a dumb `sleep` statement.  Kanye provides some [helper methods](driver_helpers.rb) to make your job easier and help you avoid those `sleep` statements.
 
+## A note about the name
+
+There are more than a few "Kanye" gems in the world already, but the name was just too good to pass up. For open-source release, Kanye has been "namespaced" with the company where it was originally developed, [The District Management Council][1].
+
+[1]: http://dmcouncil.org/
