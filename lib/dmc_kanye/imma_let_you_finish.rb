@@ -49,7 +49,7 @@ module Capybara
     class Base
 ##### START PUNCHING DUCKS
 # orig code:
-#       def synchronize(seconds=Capybara.default_wait_time, options = {})
+#       def synchronize(seconds=Capybara.default_max_wait_time, options = {})
 # new code:
       def synchronize(seconds = nil, options = {})
         kanye_in_the_house = session.driver.respond_to?(:kanye_invited?) && session.driver.kanye_invited?
@@ -58,10 +58,10 @@ module Capybara
         elsif kanye_in_the_house
           seconds_to_wait = DmcKanye::Config.default_wait_time || Capybara.default_wait_time
         else
-          seconds_to_wait = Capybara.default_wait_time
+          seconds_to_wait = Capybara.default_max_wait_time
         end
 ##### STOP PUNCHING DUCKS, BACK TO ORIGINAL CODE
-        start_time = Time.now
+        start_time = Capybara::Helpers.monotonic_time
 
         if session.synchronized
           yield
@@ -83,12 +83,12 @@ module Capybara
             raise e unless catch_error?(e, options[:errors])
 ##### START PUNCHING DUCKS
 # orig code:
-#            raise e if (Time.now - start_time) >= seconds
+#            raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds
 # new code:
-            raise e if (Time.now - start_time) >= seconds_to_wait
+            raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds_to_wait
 ##### STOP PUNCHING DUCKS, BACK TO ORIGINAL CODE
             sleep(0.05)
-            raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Time.now == start_time
+            raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Capybara::Helpers.monotonic_time == start_time
             reload if Capybara.automatic_reload
             retry
           ensure
