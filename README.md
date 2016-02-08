@@ -1,8 +1,8 @@
-# Kanye
+# DMC Kanye
+
+[![Code Climate](https://codeclimate.com/github/dmcouncil/dmc_kanye/badges/gpa.svg)](https://codeclimate.com/github/dmcouncil/dmc_kanye)
 
 Kanye improves Capybara's synchronization algorithm by letting the browser finish before the test keeps going.  By doing this, Kanye also helps you tailor the swiftness of your feature specs.
-
-
 
 ## How Kanye Works
 
@@ -112,6 +112,10 @@ However, there are a couple of situations that may confuse Kanye:
   * anytime the browser is busy for longer than `Capybara.default_wait_time` and the page has already finished loading and all ajax has completed (for example, you have a JavaScript function that walks the dom and does something very time-consuming to each element)
 
 In those (hopefully rare) situations, it is recommended that you write your own code into that test to deal with the timing issue, even if it ends up being a dumb `sleep` statement.  Kanye provides some [helper methods](driver_helpers.rb) to make your job easier and help you avoid those `sleep` statements.
+
+## Contributors
+
+DMC Kanye was originally developed by [Wyatt Greene]() and is maintained by [the District Management Council][1].
 
 ## A note about the name
 
