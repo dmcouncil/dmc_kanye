@@ -56,7 +56,7 @@ module Capybara
         if seconds
           seconds_to_wait = seconds
         elsif kanye_in_the_house
-          seconds_to_wait = DmcKanye::Config.default_wait_time || Capybara.default_wait_time
+          seconds_to_wait = DmcKanye::Config.default_wait_time || Capybara.default_max_wait_time
         else
           seconds_to_wait = Capybara.default_max_wait_time
         end
