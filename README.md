@@ -115,10 +115,10 @@ In those (hopefully rare) situations, it is recommended that you write your own 
 
 ## Contributors
 
-DMC Kanye was originally developed by [Wyatt Greene]() and is maintained by [the District Management Council][1].
+DMC Kanye was originally developed by [Wyatt Greene]() and is maintained by [District Management Group][1].
 
 ## A note about the name
 
-There are more than a few "Kanye" gems in the world already, but the name was just too good to pass up. For open-source release, Kanye has been "namespaced" with the company where it was originally developed, [The District Management Council][1].
+There are more than a few "Kanye" gems in the world already, but the name was just too good to pass up. For open-source release, Kanye was "namespaced" with the company where it was originally developed, The District Management Council ([now District Management Group][1]).
 
-[1]: http://dmcouncil.org/
+[1]: https://dmgroupK12.com/
