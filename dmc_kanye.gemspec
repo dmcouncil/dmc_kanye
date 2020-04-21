@@ -7,7 +7,6 @@ Gem::Specification.new do |spec|
   spec.name          = "dmc_kanye"
   spec.version       = DmcKanye::VERSION
   spec.authors       = ["Wyatt Greene", "Parker Morse"]
-  spec.email         = ["pmorse@dmcouncil.org"]
   spec.licenses      = ['MIT']
   spec.homepage      = 'https://github.com/dmcouncil/dmc_kanye'
 
