@@ -19,6 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "capybara"
-  spec.add_dependency "poltergeist", '~> 1.10.0' # poltergeist times out when we update to 1.15.x
+  spec.add_dependency "poltergeist"
   spec.add_development_dependency "rake"
 end
