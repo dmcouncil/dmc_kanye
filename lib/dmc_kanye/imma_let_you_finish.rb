@@ -42,58 +42,58 @@ end
 # Here we have overridden the behavior of a method in Capybara.  The part
 # that we added is highlighted below to make it easier when upgrading
 # to a future version of Capybara.
+#
+# Original code lives here: https://github.com/teamcapybara/capybara/blob/3.40.0/lib/capybara/node/base.rb#L76
 
 ##### THIS CODE IS ORIGINAL
 module Capybara
   module Node
     class Base
+      def synchronize(seconds = nil, errors: nil)
+        return yield if session.synchronized
 ##### START PUNCHING DUCKS
 # orig code:
-#       def synchronize(seconds=Capybara.default_max_wait_time, options = {})
+#       seconds = session_options.default_max_wait_time if [nil, true].include? seconds
 # new code:
-      def synchronize(seconds = nil, options = {})
         kanye_in_the_house = session.driver.respond_to?(:kanye_invited?) && session.driver.kanye_invited?
-        if seconds
-          seconds_to_wait = seconds
-        elsif kanye_in_the_house
-          seconds_to_wait = DmcKanye::Config.default_wait_time || Capybara.default_max_wait_time
-        else
-          seconds_to_wait = Capybara.default_max_wait_time
+        if [nil, true].include? seconds
+          if kanye_in_the_house
+            seconds = DmcKanye::Config.default_wait_time || session_options.default_max_wait_time
+          else
+            seconds = session_options.default_max_wait_time
+          end
         end
 ##### STOP PUNCHING DUCKS, BACK TO ORIGINAL CODE
-        start_time = Capybara::Helpers.monotonic_time
+        interval = session_options.default_retry_interval
+        session.synchronized = true
+        timer = Capybara::Helpers.timer(expire_in: seconds)
+        begin
+##### START PUNCHING DUCKS
+# orig code:
+#         yield
+# new code:
+          session.driver.send(:imma_let_you_finish) if kanye_in_the_house
+          result = yield
+          session.driver.send(:imma_let_you_finish) if kanye_in_the_house
+          result
+##### STOP PUNCHING DUCKS, BACK TO ORIGINAL CODE
+        rescue StandardError => e
+          session.raise_server_error!
+          raise e unless catch_error?(e, errors)
 
-        if session.synchronized
-          yield
-        else
-          session.synchronized = true
-          begin
-##### START PUNCHING DUCKS
-# orig code:
-#            yield
-# new code:
-            session.driver.send(:imma_let_you_finish) if kanye_in_the_house
-            result = yield
-            session.driver.send(:imma_let_you_finish) if kanye_in_the_house
-            result
-##### STOP PUNCHING DUCKS, BACK TO ORIGINAL CODE
-          rescue => e
-            session.raise_server_error!
-            raise e unless driver.wait?
-            raise e unless catch_error?(e, options[:errors])
-##### START PUNCHING DUCKS
-# orig code:
-#            raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds
-# new code:
-            raise e if (Capybara::Helpers.monotonic_time - start_time) >= seconds_to_wait
-##### STOP PUNCHING DUCKS, BACK TO ORIGINAL CODE
-            sleep(0.05)
-            raise Capybara::FrozenInTime, "time appears to be frozen, Capybara does not work with libraries which freeze time, consider using time travelling instead" if Capybara::Helpers.monotonic_time == start_time
-            reload if Capybara.automatic_reload
-            retry
-          ensure
-            session.synchronized = false
+          if driver.wait?
+            raise e if timer.expired?
+
+            sleep interval
+            reload if session_options.automatic_reload
+          else
+            old_base = @base
+            reload if session_options.automatic_reload
+            raise e if old_base == @base
           end
+          retry
+        ensure
+          session.synchronized = false
         end
       end
     end
